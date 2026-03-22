@@ -8,6 +8,22 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <title>Поддержка</title>
+  <script>
+    (function () {
+      try {
+        if (/[?&]embed=1(?:&|$)/.test(location.search)) return;
+        var touchUi =
+          window.matchMedia &&
+          (window.matchMedia("(pointer: coarse)").matches ||
+            window.matchMedia("(hover: none)").matches);
+        var narrow =
+          window.matchMedia && window.matchMedia("(max-width: 1024px)").matches;
+        if (touchUi && narrow) {
+          window.location.replace("https://gmchat.mooo.com/chat/");
+        }
+      } catch (e) {}
+    })();
+  </script>
   <style>
     * {
       margin: 0;
