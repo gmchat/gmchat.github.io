@@ -33,6 +33,9 @@
 
     iframe {
       display: block;
+      position: fixed;
+      left: 0;
+      top: 0;
       width: 100%;
       height: 100%;
       border: none;
@@ -45,5 +48,25 @@
     title="Онлайн-консультация"
     allow="microphone; camera">
   </iframe>
+  <script>
+    (function () {
+      function fitHost() {
+        var vv = window.visualViewport;
+        var h = vv ? vv.height : window.innerHeight;
+        if (h > 0) {
+          document.documentElement.style.height = h + "px";
+        }
+      }
+      fitHost();
+      window.addEventListener("resize", fitHost);
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener("resize", fitHost);
+      }
+      window.addEventListener("orientationchange", function () {
+        setTimeout(fitHost, 400);
+      });
+      window.addEventListener("pageshow", fitHost);
+    })();
+  </script>
 </body>
 </html>
