@@ -108,20 +108,19 @@
 </head>
 <body>
 
-  <button class="btn-open" onclick="openModal()">Написать консультанту</button>
+  <button class="btn-open" type="button" onclick="openModal()">Написать консультанту</button>
 
-  <div class="modal-overlay" id="overlay" onclick="handleOverlayClick(event)">
+  <div class="modal-overlay active" id="overlay" onclick="handleOverlayClick(event)">
     <div class="modal">
       <div class="modal-header">
         <span class="modal-title">Онлайн-консультация</span>
-        <button class="btn-close" onclick="closeModal()">✕</button>
+        <button type="button" class="btn-close" onclick="closeModal()">✕</button>
       </div>
       <iframe
         id="chatFrame"
-        src=""
+        src="https://gmchat.mooo.com/chat"
         data-src="https://gmchat.mooo.com/chat"
-        allow="microphone; camera"
-        loading="lazy">
+        allow="microphone; camera">
       </iframe>
     </div>
   </div>
@@ -131,7 +130,6 @@
       const overlay = document.getElementById('overlay');
       const frame = document.getElementById('chatFrame');
 
-      // Загружаем iframe только при открытии
       if (!frame.src || frame.src === window.location.href) {
         frame.src = frame.dataset.src;
       }
@@ -151,10 +149,13 @@
       }
     }
 
-    // Закрытие по кнопке Назад на Android
     window.addEventListener('popstate', closeModal);
     document.getElementById('overlay').addEventListener('touchstart', function(e) {
       if (e.target === this) closeModal();
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      document.body.style.overflow = 'hidden';
     });
   </script>
 
