@@ -6,7 +6,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Gandhi Medicos Help — онлайн-чат поддержки</title>
+  <title>Поддержка</title>
   <meta name="description" content="Официальный веб-чат Gandhi Medicos: вопросы по препаратам, поиск по каталогу, помощь с заказом. Напишите оператору прямо в браузере.">
   <link rel="canonical" href="https://gmchat.github.io/">
   <meta property="og:type" content="website">
@@ -101,103 +101,11 @@
       margin: 0;
       overflow: hidden;
       background: #1a1a2e;
-      display: flex;
-      flex-direction: column;
     }
 
-    .land-top {
-      flex: 0 0 auto;
-      padding: 10px 14px max(10px, env(safe-area-inset-top));
-      padding-bottom: 10px;
-      background: #16162a;
-      border-bottom: 1px solid #2d2d44;
-      color: #e8eaf0;
-    }
-
-    .land-top h1 {
-      font-family: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      line-height: 1.35;
-      margin: 0 0 6px;
-      color: #fff;
-    }
-
-    .land-intro {
-      font-family: system-ui, "Segoe UI", Roboto, sans-serif;
-      font-size: 13px;
-      line-height: 1.45;
-      color: #aeb6c9;
-      margin: 0 0 8px;
-    }
-
-    .land-intro a {
-      color: #6eb8aa;
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
-
-    .land-intro a:hover {
-      color: #8ed4c8;
-    }
-
-    .land-details {
-      font-family: system-ui, "Segoe UI", Roboto, sans-serif;
-    }
-
-    .land-details summary {
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 600;
-      color: #6eb8aa;
-      list-style-position: outside;
-      padding: 4px 0;
-      user-select: none;
-    }
-
-    .land-details summary::-webkit-details-marker {
-      color: #6eb8aa;
-    }
-
-    .land-faq {
-      padding-top: 10px;
-      font-size: 13px;
-      line-height: 1.5;
-      color: #cfd6e6;
-    }
-
-    .land-faq h2 {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: #8a93a8;
-      margin: 14px 0 6px;
-    }
-
-    .land-faq h2:first-child {
-      margin-top: 6px;
-    }
-
-    .land-faq p {
-      margin: 0 0 8px;
-    }
-
-    .land-faq a {
-      color: #6eb8aa;
-    }
-
-    .iframe-wrap {
-      flex: 1 1 auto;
-      min-height: 0;
-      position: relative;
-      width: 100%;
-      background: #1a1a2e;
-    }
-
-    .iframe-wrap iframe {
+    iframe {
       display: block;
-      position: absolute;
+      position: fixed;
       left: 0;
       top: 0;
       width: 100%;
@@ -207,58 +115,28 @@
   </style>
 </head>
 <body>
-  <header class="land-top" id="landTop">
-    <h1>Gandhi Medicos Help — онлайн-чат поддержки</h1>
-    <p class="land-intro">
-      Официальный веб-чат Gandhi Medicos: вопросы по ассортименту, поиск препаратов и помощь с заказом.
-      Сайт компании: <a href="https://gandhimedicos.ru/" rel="noopener noreferrer">gandhimedicos.ru</a>.
-    </p>
-    <details class="land-details" id="landDetails">
-      <summary>Частые вопросы и как пользоваться чатом</summary>
-      <div class="land-faq">
-        <h2>Как пользоваться</h2>
-        <p>Ниже открыт такой же чат, как по публичной ссылке поддержки. Можно написать сообщение, открыть меню с подсказками или перейти к каталогу.</p>
-        <h2>Нужно ли приложение</h2>
-        <p>Нет, всё работает в браузере на телефоне или компьютере.</p>
-        <h2>Gandhi Medicos Help и сайт</h2>
-        <p>Эта страница для быстрого входа в чат. Основной сайт: <a href="https://gandhimedicos.ru/" rel="noopener noreferrer">gandhimedicos.ru</a>.</p>
-        <h2>Переписка</h2>
-        <p>Не рассчитывайте на длительное хранение истории: при закрытии или обновлении страницы диалог может сброситься. При необходимости оставьте телефон или email в чате.</p>
-      </div>
-    </details>
-  </header>
-  <div class="iframe-wrap" id="iframeWrap">
-    <iframe
-      id="gmchatFrame"
-      src="https://gmchat.mooo.com/chat/?embed=1"
-      title="Онлайн-чат поддержки Gandhi Medicos"
-      allow="microphone; camera">
-    </iframe>
-  </div>
+  <iframe
+    id="gmchatFrame"
+    src="https://gmchat.mooo.com/chat/?embed=1"
+    title="Онлайн-консультация"
+    allow="microphone; camera">
+  </iframe>
   <script>
     (function () {
       var iframe = document.getElementById("gmchatFrame");
-      var landTop = document.getElementById("landTop");
-      var iframeWrap = document.getElementById("iframeWrap");
-      var landDetails = document.getElementById("landDetails");
       var CHAT_ORIGIN = "https://gmchat.mooo.com";
-
-      function headerHeight() {
-        if (!landTop) return 0;
-        return Math.ceil(landTop.getBoundingClientRect().height);
+      function applyOuterHeight(px) {
+        if (px < 80) return;
+        var h = Math.ceil(px) + "px";
+        document.documentElement.style.height = h;
+        document.body.style.height = h;
+        if (iframe) iframe.style.height = h;
       }
-
-      function syncLayout() {
+      function fitHost() {
         var vv = window.visualViewport;
-        var vvH = vv ? vv.height : window.innerHeight;
-        if (vvH < 80) return;
-        var hh = headerHeight();
-        var wrapH = Math.max(80, Math.ceil(vvH - hh));
-        document.documentElement.style.height = Math.ceil(vvH) + "px";
-        document.body.style.height = Math.ceil(vvH) + "px";
-        if (iframeWrap) iframeWrap.style.height = wrapH + "px";
+        var h = vv ? vv.height : window.innerHeight;
+        if (h > 0) applyOuterHeight(h);
       }
-
       window.addEventListener("message", function (e) {
         if (e.origin !== CHAT_ORIGIN) return;
         var d = e.data;
@@ -266,28 +144,20 @@
         var nh = Number(d.height);
         if (nh < 80 || nh > 32000) return;
         var vv = window.visualViewport;
-        var vvH = vv ? vv.height : window.innerHeight;
-        var hh = headerHeight();
-        var cap = Math.max(80, Math.ceil(vvH - hh));
-        if (cap > 0) nh = Math.min(nh, cap);
-        if (iframeWrap) iframeWrap.style.height = nh + "px";
+        var cap = vv ? vv.height : window.innerHeight;
+        if (cap > 0) nh = Math.min(nh, Math.ceil(cap));
+        applyOuterHeight(nh);
       });
-
-      syncLayout();
-      window.addEventListener("resize", syncLayout);
+      fitHost();
+      window.addEventListener("resize", fitHost);
       if (window.visualViewport) {
-        window.visualViewport.addEventListener("resize", syncLayout);
-        window.visualViewport.addEventListener("scroll", syncLayout);
+        window.visualViewport.addEventListener("resize", fitHost);
+        window.visualViewport.addEventListener("scroll", fitHost);
       }
       window.addEventListener("orientationchange", function () {
-        setTimeout(syncLayout, 400);
+        setTimeout(fitHost, 400);
       });
-      window.addEventListener("pageshow", syncLayout);
-      if (landDetails) {
-        landDetails.addEventListener("toggle", function () {
-          syncLayout();
-        });
-      }
+      window.addEventListener("pageshow", fitHost);
     })();
   </script>
 </body>
