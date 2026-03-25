@@ -2,28 +2,12 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <title>Поддержка</title>
-  <script>
-    (function () {
-      try {
-        if (/[?&]embed=1(?:&|$)/.test(location.search)) return;
-        var touchUi =
-          window.matchMedia &&
-          (window.matchMedia("(pointer: coarse)").matches ||
-            window.matchMedia("(hover: none)").matches);
-        var narrow =
-          window.matchMedia && window.matchMedia("(max-width: 1024px)").matches;
-        if (touchUi && narrow) {
-          window.location.replace("https://gmchat.mooo.com/chat/");
-        }
-      } catch (e) {}
-    })();
-  </script>
   <style>
     * {
       margin: 0;
@@ -60,23 +44,43 @@
 </head>
 <body>
   <iframe
-    src="https://gmchat.mooo.com/chat"
+    id="gmchatFrame"
+    src="https://gmchat.mooo.com/chat/?embed=1"
     title="Онлайн-консультация"
     allow="microphone; camera">
   </iframe>
   <script>
     (function () {
+      var iframe = document.getElementById("gmchatFrame");
+      var CHAT_ORIGIN = "https://gmchat.mooo.com";
+      function applyOuterHeight(px) {
+        if (px < 80) return;
+        var h = Math.ceil(px) + "px";
+        document.documentElement.style.height = h;
+        document.body.style.height = h;
+        if (iframe) iframe.style.height = h;
+      }
       function fitHost() {
         var vv = window.visualViewport;
         var h = vv ? vv.height : window.innerHeight;
-        if (h > 0) {
-          document.documentElement.style.height = h + "px";
-        }
+        if (h > 0) applyOuterHeight(h);
       }
+      window.addEventListener("message", function (e) {
+        if (e.origin !== CHAT_ORIGIN) return;
+        var d = e.data;
+        if (!d || d.type !== "gmchat-embed-size") return;
+        var nh = Number(d.height);
+        if (nh < 80 || nh > 32000) return;
+        var vv = window.visualViewport;
+        var cap = vv ? vv.height : window.innerHeight;
+        if (cap > 0) nh = Math.min(nh, Math.ceil(cap));
+        applyOuterHeight(nh);
+      });
       fitHost();
       window.addEventListener("resize", fitHost);
       if (window.visualViewport) {
         window.visualViewport.addEventListener("resize", fitHost);
+        window.visualViewport.addEventListener("scroll", fitHost);
       }
       window.addEventListener("orientationchange", function () {
         setTimeout(fitHost, 400);
